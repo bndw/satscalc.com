@@ -9,15 +9,6 @@ export const Calculator = () => {
   const [btc, setBtc] = useState("");
   const [usd, setUsd] = useState("");
 
-  const formatCurrency = (val: string) => {
-    const formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2,
-    });
-    return formatter.format(parseNumber(val));
-  };
-
   const formatDecimal = (val: any) => {
     return val.toLocaleString("fullwide", {
       useGrouping: true,
@@ -46,7 +37,7 @@ export const Calculator = () => {
 
         newbtc = val / 100000000;
         setBtc(formatDecimal(newbtc));
-        setUsd(formatCurrency(formatDecimal(newbtc * btcPrice)));
+        setUsd(formatDecimal(newbtc * btcPrice));
         break;
       case "btc":
         setBtc(v);
@@ -57,13 +48,16 @@ export const Calculator = () => {
         setBtc(formatDecimal(val));
 
         setSats(formatDecimal(val * 100000000));
-        setUsd(formatCurrency(formatDecimal(val * btcPrice)));
+        setUsd(formatDecimal(val * btcPrice));
         break;
       case "usd":
-        setUsd(formatCurrency(v));
-        if (isNaN(val)) {
+        setUsd(v);
+
+        if (isNaN(val) || v.endsWith(".")) {
           return;
         }
+
+        setUsd(formatDecimal(val));
 
         newbtc = val / btcPrice;
         setBtc(formatDecimal(newbtc));
@@ -100,14 +94,18 @@ export const Calculator = () => {
       />
 
       <label htmlFor="usd">USD</label>
-      <input
-        className={styles.input}
-        onChange={(e) => handleUpdate("usd", e.target.value)}
-        value={usd}
-        type="text"
-        id="usd"
-        name="usd"
-      />
+      <div className="flex">
+        <span className={styles.usd}>$</span>
+        <input
+          className={styles.input}
+          style={{ padding: "0" }}
+          onChange={(e) => handleUpdate("usd", e.target.value)}
+          value={usd}
+          type="text"
+          id="usd"
+          name="usd"
+        />
+      </div>
     </form>
   );
 };
