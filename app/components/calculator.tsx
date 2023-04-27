@@ -79,6 +79,7 @@ export const Calculator = () => {
         onChange={(e) => handleUpdate("sats", e.target.value)}
         value={sats}
         type="text"
+        pattern="[0-9]*"
         id="sats"
         name="sats"
       />
@@ -89,6 +90,7 @@ export const Calculator = () => {
         onChange={(e) => handleUpdate("btc", e.target.value)}
         value={btc}
         type="text"
+        pattern="[0-9]*"
         id="btc"
         name="btc"
       />
@@ -102,6 +104,7 @@ export const Calculator = () => {
           onChange={(e) => handleUpdate("usd", e.target.value)}
           value={usd}
           type="text"
+          pattern="[0-9]*"
           id="usd"
           name="usd"
         />
