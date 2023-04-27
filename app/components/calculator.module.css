@@ -1,0 +1,15 @@
+.form {
+}
+
+.input {
+  border-bottom: solid 1px #eee;
+  box-sizing: border-box;
+  font-size: 3em;
+  margin: 8px 0;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+.input:focus {
+  outline: none;
+}
