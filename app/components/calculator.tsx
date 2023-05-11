@@ -5,6 +5,10 @@ import styles from "./calculator.module.css";
 import { BitcoinPrice } from "../utils/bitcoin-price";
 
 export const Calculator = () => {
+  const [querySats, setQuerySats] = useState("");
+  const [queryBtc, setQueryBtc] = useState("");
+  const [queryUsd, setQueryUsd] = useState("");
+
   const [sats, setSats] = useState("");
   const [btc, setBtc] = useState("");
   const [usd, setUsd] = useState("");
@@ -67,9 +71,23 @@ export const Calculator = () => {
   };
 
   useEffect(() => {
-    // Initialize the calculator with some numbers
-    handleUpdate("sats", "1000");
-  }, [btcPrice]);
+    // Initialize the calculator with any query params
+    querySats && handleUpdate("sats", querySats);
+    queryBtc && handleUpdate("btc", queryBtc);
+    queryUsd && handleUpdate("usd", queryUsd);
+
+    // Otherwise set default values
+    if (!(querySats || queryBtc || queryUsd) && btcPrice) {
+      handleUpdate("sats", "1000");
+    }
+  }, [btcPrice, querySats, queryBtc]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setQuerySats(params.get("sats") || "");
+    setQueryBtc(params.get("btc") || "");
+    setQueryUsd(params.get("usd") || "");
+  }, []);
 
   return (
     <form className="flex flex-col">
